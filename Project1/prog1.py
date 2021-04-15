@@ -30,15 +30,27 @@ wwb_R = 1
 
 
 def generujTabliceGeometrii(x_a,x_b, n):
+    # l_elementow = n-1
     odstep = (x_b - x_a) / (n - 1)
-    matrix = np.array([1, x_a])
+    wezly = np.array([1, x_a])
+    elementy = np.array([1,1,2])
 
     for i in range(1, n, 1):
-        matrix = np.block([
-            [matrix],
+       wezly = np.block([
+            [wezly ],
             [i+1, i * odstep+x_a],
         ])
-    return matrix
+
+    for j in range(2, n,1):
+        elementy = np.block([
+            [elementy],
+            [j,j,j+1]])
+
+    return wezly,elementy
+
+tablica_w, tablica_e = generujTabliceGeometrii(1,5,5)
+
+print(tablica_w)
+print(tablica_e)
 
 
-print(generujTabliceGeometrii(1,4,5))
