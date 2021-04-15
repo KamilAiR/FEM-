@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib as  mp
+import matplotlib.pyplot as  plt
 ########################    PRE - PROCESSING  ########################
 
 c=0
@@ -28,12 +28,13 @@ twb_R = 'D'
 wwb_L = 0
 wwb_R = 1
 
+################### Funkcja generujaca tablice ###################
 
 def generujTabliceGeometrii(x_a,x_b, n):
     # l_elementow = n-1
-    odstep = (x_b - x_a) / (n - 1)
-    wezly = np.array([1, x_a])
-    elementy = np.array([1,1,2])
+    odstep = (x_b - x_a) / (n - 1) #wyliczenie odstepu
+    wezly = np.array([1, x_a]) #pierwszy wiersz tablicy wezly
+    elementy = np.array([1,1,2]) #pierwszy wiersz tablicy elementy
 
     for i in range(1, n, 1):
        wezly = np.block([
@@ -48,9 +49,27 @@ def generujTabliceGeometrii(x_a,x_b, n):
 
     return wezly,elementy
 
-tablica_w, tablica_e = generujTabliceGeometrii(1,5,5)
+# Wywolanie zwroci tablice wezlow i tablce elementow dla podanego 1 wezla, ostatniego wezla i liczby wezlow
+tablica_w, tablica_e = generujTabliceGeometrii(1,5,10)
+
 
 print(tablica_w)
 print(tablica_e)
 
+################### Funkcja wyswietlajaca ################
+
+def rysujgeometrie (tab_w):
+    y = np.zeros(tab_w.shape[0])
+    plt.plot(tab_w[:, 1], y, marker='o') #wyrysowanie elementow
+
+    for i in range(0, np.size(y), 1): #podpis wezlow
+        plt.text(x=tab_w[i, 1], y=y[i]-0.007, s=int(tab_w[i, 0]),fontsize=7,color ='green' )
+        # plt.text(x=tab_w[i, 1]+, y=y[i] - 0.007, s=tab_w[i, 0], fontsize=12, color='green')
+
+    for i in range(0, np.size(y) - 1, 1): #podpis elementow
+        plt.text(x=(tab_w[i, 1] + tab_w[i + 1, 1]) / 2, y=y[i] + 0.003, s=int(i + 1),fontsize=7, color='blue')
+    plt.show()
+
+# jako wywolanie podajemy tablice wezlow a otrzymujemy wyplotowana geometirie
+rysujgeometrie(tablica_w)
 
